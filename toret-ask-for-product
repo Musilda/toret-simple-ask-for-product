@@ -1,0 +1,45 @@
+<?php
+/**
+ * @package   Toret Ask For Product
+ * @author    Vladislav Musílek
+ * @license   GPL-2.0+
+ * @link      Toret.cz
+ * @copyright 2016 Toret.cz                             
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Toret Ask For Product
+ * Plugin URI:        http://toret.cz/
+ * Description:       Odkaz na stránku s formulářem pro odeslání dotazu na product, pokud není produkt skladem (detail produktu)
+ * Version:           1.0
+ * Author:            Vladislav Musílek
+ * Author URI:        http://toret.cz
+ * Text Domain:       toret-ask-for-product
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Domain Path:       /languages
+ */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+define( 'VYFAKTURUJDIR', plugin_dir_path( __FILE__ ) );
+define( 'VYFAKTURUJURL', plugin_dir_url( __FILE__ ) );
+
+
+/*----------------------------------------------------------------------------*
+ * Public-Facing Functionality
+ *----------------------------------------------------------------------------*/
+
+add_action( 'woocommerce_stock_html', 'toret_ask_for_product_callback', 10, 3 );
+
+function toret_ask_for_product_callback( $availability_html, $availability_text, $product ){
+
+    if ( !$product->is_in_stock() ){
+        $availability      = $product->get_availability();
+        $availability_html = empty( $availability['availability'] ) ? '' : '<p class="stock ' . esc_attr( $availability['class'] ) . '"><a href="'.get_the_permalink(36781).'" class="button" target="_blank">' . esc_html( __('Ask for product', 'toret-ask-for-product') ) . '</a></p>';
+    }
+
+    return $availability_html;
+
+}
