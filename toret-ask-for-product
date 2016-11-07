@@ -23,9 +23,6 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-define( 'VYFAKTURUJDIR', plugin_dir_path( __FILE__ ) );
-define( 'VYFAKTURUJURL', plugin_dir_url( __FILE__ ) );
-
 
 /*----------------------------------------------------------------------------*
  * Public-Facing Functionality
